@@ -1,0 +1,93 @@
+{"comment":"Initialisation des données du jeu de test
+
+1e64fe93-8182-4c4f-a4cf-214309ea1eb8
+929fa43e-cf76-43c2-a15c-ada66e29f4ac
+ccdcf5d6-721e-4071-b362-d986adac1ac6
+d4e77c0a-302a-47e6-b09a-73b3a4a68d8a
+90f005cd-ab71-4a83-be41-2eaf37fb5e6c
+e27ef962-85a3-4a18-811b-68d3e8e59949
+a4b501d7-c625-4cd4-9b65-7aadf360347e
+20d90497-ac9d-41b7-bb45-a614f23190b2
+8ab49acf-1288-4a1d-b5b9-e8cbd79ae2be
+44ad5c23-e273-476b-b108-7bd6cb7941c9
+fe181f24-214a-43e4-8c8e-2704b9de97e1
+d8542af7-d4be-4ac8-86c7-500f4b77b2d6
+fb83e7c5-eff8-42f2-85a9-a537f36a64d5
+e7809f23-8f06-4f64-8d82-e70ce0e34428
+ea0d6907-6c48-48eb-addb-ea4a719f6330
+ebb387d4-cc2c-4a8f-b3dc-39117a498eb3
+61c6681d-d97e-4a04-962e-6be0794ca506
+6bb94dad-ef97-4c42-ac80-646959d41a2e
+88f80eea-37da-44be-9056-20c27c150083
+b561fb6e-382e-4210-a2a6-8fb22fc505ea
+c12fb494-4f25-4d1f-8302-9776f768ff53
+2d7bf01c-6eea-4e9d-9e26-accc7ce26634
+3494ff69-c049-435a-b965-1df9b258d51b
+a8ccfd81-92f3-440d-baee-0f802e8b5822
+ec8e5daf-7190-44e1-b2b9-05f81ab10a6d
+df9d8b73-233f-4158-a05e-205409726172
+92c71136-42fc-4e0b-a82b-bbd324587fcc
+d5979ec2-a37e-447a-8f48-b349b142eb57
+5404927c-0be6-4181-b2d6-843f6b221901
+8bbf6380-1629-4511-ad09-72b7803e1988
+d705156a-00a7-4467-84bc-194fb04e93ac
+839d9393-753e-4981-9b2d-dce0a79edadd
+1ec456ef-003e-4e44-9d9c-19368cdc773e
+acd8901f-4788-4904-8f36-0966a61a1197
+a5a8d588-83f5-4d04-b24c-5924d52e7192
+162e07cf-057d-474c-b564-1a7449987d3a
+cfa37abb-c1ab-4573-85d7-433a414646c9
+e7c85ff5-baf7-47b7-9d28-616a8a9a42b7
+d6f2cf34-d392-499d-ba25-4230cd5fa61e
+ccfacb02-e8b8-4f8c-a3cb-19306f1fa10f
+ea235a73-08f3-4361-95dd-a2ac9348480a
+6cbbbad4-1dcf-4e9b-a2f9-50afa89588b0
+c34d5272-09be-41ad-adf3-e1952210179d
+e3d0262e-6316-4c54-bdbb-709c5eae4175",
+"aires":[
+{
+"uuid":"3d3471e7-6a07-4cd3-968f-4ccc72d8fa00",
+"nom":"Bras de zil",
+"lgt":4.787663,
+"lat":44.7304499
+},
+{
+"uuid":"8157690e-d98d-4c8e-b3cd-006c1cb457d6",
+"nom":"Aire du Jura",
+"lgt":4.9624734,
+"lat":46.7759641
+},
+{
+"uuid":"39f83c57-07fb-42cc-8078-6d0746341bf1",
+"nom":"Aire Le Poulet de Bresse",
+"lgt":4.7511578,
+"lat":46.4960191
+},
+
+{
+"uuid":"84588701-029e-44f7-8784-d6f44d7464ca",
+"nom":"Aire de Service de Bourg-Jasseron",
+"lgt":5.0220676,
+"lat":46.186881
+}
+]
+,"tags":[
+	{
+		"uuid":"7b0e994d-4478-44fa-a957-b04fe94be5c6"
+		"numserie":"04:1A:30:6A:B0:57:81"
+		"data":"sty://tag/7b0e994d-4478-44fa-a957-b04fe94be5c6"
+	},{
+		"uuid":"1ab2c583-cd51-4c54-ad53-f33f5b2d0010"
+		"numserie":"04:4C:5F:6A:B0:57:80"
+		"data":"sty://tag/1ab2c583-cd51-4c54-ad53-f33f5b2d0010"
+	},{
+		"uuid":"396c20e7-71c2-4d1d-9ac7-4cc49fa8bb2a"
+		"numserie":"04:6E:3B:6A:B0:57:80"
+		"data":"sty://tag/396c20e7-71c2-4d1d-9ac7-4cc49fa8bb2a"
+	},{
+		"uuid":"18efa781-4a2d-4603-9307-c5dd419d5fe5"
+		"numserie":"04:86:1B:6A:B0:57:80"
+		"data":"sty://tag/396c20e7-71c2-4d1d-9ac7-4cc49fa8bb2a"
+	}
+]
+}
