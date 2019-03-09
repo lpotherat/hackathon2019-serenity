@@ -14,6 +14,26 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 
 class CoreController extends FOSRestController
 {
+    const DEV = true;
+    
+    const K_MIN_ACCEPTABLE_ROAD_TIME = "minAcceptableRoadTime";
+    const K_MAX_ACCEPTABLE_ROAD_TIME = "maxAcceptableRoadTime";
+    const K_MIN_ACCEPTABLE_DISTANCE = "minAcceptableRoadDistance";
+    const K_MAX_ACCEPTABLE_DISTANCE = "maxAcceptableRoadDistance";
+    
+    private static $paramsDev = [
+        self::K_MIN_ACCEPTABLE_ROAD_TIME=>30,
+        self::K_MAX_ACCEPTABLE_ROAD_TIME=>45,
+        self::K_MIN_ACCEPTABLE_DISTANCE=>160,
+        self::K_MAX_ACCEPTABLE_DISTANCE=>300,
+    ];
+    private static $paramsProd = [
+        self::K_MIN_ACCEPTABLE_ROAD_TIME=>5400,
+        self::K_MAX_ACCEPTABLE_ROAD_TIME=>8100,
+        self::K_MIN_ACCEPTABLE_DISTANCE=>160,
+        self::K_MAX_ACCEPTABLE_DISTANCE=>300,
+    ];
+    
     private $session;
     private $tagRepository;
     private $offreRepository;
@@ -27,6 +47,14 @@ class CoreController extends FOSRestController
         $this->session = $session;
         $this->tagRepository = $tagRepository;
         $this->offreRepository = $offreRepository;
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    private static function getParams(){
+        return static::DEV?static::$paramDev:static::$paramProd;
     }
     
     /**
@@ -102,6 +130,10 @@ class CoreController extends FOSRestController
      */
     public function check(Request $request):View {
         
+        /**
+         * 
+         * @var Session $session
+         */
         $session = $this->session->get("session");
         if ($session == null) {
             return View::create(["result"=>false,"Vous n'avez pas démarré !"], Response::HTTP_FORBIDDEN);
@@ -111,9 +143,33 @@ class CoreController extends FOSRestController
         $tag = $this->tagRepository->findOneBy(['uuid'=>$tagUuid]);
         if (!empty($tag)) {
             
-            //TODO vérifier le temps passé et accepter ou non en fonction
+            $timeSinceStart = $session->getTimeSinceStart();
             
-            //TODO chercher les offres correspondantes et les retourner
+            //$dist = $session->getTotalDistance(false);
+            $distWP = $session->getTotalDistance(true);
+            
+            $params = static::getParams();
+            
+            $result = true;
+            $message = "";
+            if ($timeSinceStart < $params[static::K_MIN_ACCEPTABLE_ROAD_TIME]) {
+                $result = false;
+                $message = "Votre trajet est un peu cours, vous méritez la pause ?";
+            }
+            
+            if ($timeSinceStart > $params[static::K_MAX_ACCEPTABLE_ROAD_TIME]) {
+                $result = false;
+                $message = "Vous n'avez pas respecté le temps règlementaire de 2h entre chaque pause :( ";
+            }
+            
+            if ($distWP < $params[static::K_MIN_ACCEPTABLE_DISTANCE] || $distWP > $params[static::K_MAX_ACCEPTABLE_DISTANCE]) {
+                $result = false;
+                $message = "La distance parcourue n'est pas cohérente avec le temps passé à rouler";
+            }
+            
+            if(!$result){
+                return View::create(["result"=>false,"message"=>$message], Response::HTTP_OK);
+            }
             
             $offres = $this->offreRepository->findWithTag($tag);
             
