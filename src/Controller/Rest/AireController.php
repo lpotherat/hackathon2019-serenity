@@ -41,10 +41,22 @@ class AireController extends FOSRestController
      * Retrieves all Aire resource
      * @Rest\Get("/aires")
      */
-    public function getAllTag(): View{
-        $tags = $this->aireRepository->findAll();
+    public function getAllAire(): View{
+        $aires = $this->aireRepository->findAll();
+        
+        $out = [];
+        foreach($aires as $aire){
+            $_a = [
+                "uuid"=>$aire->getUuid(),
+                "nom"=>$aire->getNom(),
+                "lat"=>$aire->getLat(),
+                "lng"=>$aire->getLgt(),
+            ];
+            $out[] = $_a;
+        }
+        
         // In case our GET was a success we need to return a 200 HTTP OK response with the request object
-        return View::create($tags, Response::HTTP_OK);
+        return View::create($out, Response::HTTP_OK);
     }
     
     /**

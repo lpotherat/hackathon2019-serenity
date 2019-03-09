@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Aire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\AbstractQuery;
 
 /**
  * @method Aire|null find($id, $lockMode = null, $lockVersion = null)
@@ -34,7 +35,6 @@ class AireRepository extends ServiceEntityRepository
         $em->flush($outAire);
         return $outAire;
     }
-    
     
     // /**
     //  * @return Aire[] Returns an array of Aire objects
