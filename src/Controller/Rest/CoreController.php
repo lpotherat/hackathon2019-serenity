@@ -40,6 +40,12 @@ class CoreController extends FOSRestController
             $this->session->start();
         }
         
+        $currentSession = $this->session->get("session",null);
+        
+        if ($currentSession != null) {
+            return View::create(["result"=>false,"message"=>"Vous êtes déjà en route !"],Response::HTTP_FORBIDDEN);
+        }
+        
         $startPoint = new Point();
         $startPoint->setLat($request->get('lat'));
         $startPoint->setLgt($request->get('lgt'));
@@ -48,8 +54,20 @@ class CoreController extends FOSRestController
         
         $this->session->set("session",$session);
         
-        // In case our POST was a success we need to return a 202 HTTP ACCEPTED response
-        return View::create(true, Response::HTTP_ACCEPTED);
+        // In case our POST was a success we need to return a 200 HTTP OK response
+        return View::create(["result"=>true,"message"=>"Bonne route !","debug"=>var_export($session,true)], Response::HTTP_OK);
+    }
+    
+    /**
+     * Reset all the tracking session
+     * @Rest\Post("/session/reset")
+     * @param Request $request
+     * @return View
+     */
+    public function reset(){
+        if($this->session->isStarted()){
+            $this->session->clear();
+        }
     }
     
     /**
@@ -70,9 +88,11 @@ class CoreController extends FOSRestController
             $point->setLgt($request->get('lgt'));
             
             $session->pushWayPoint(new \DateTime(), $point);
+            
+            // In case our POST was a success we need to return a 200 HTTP OK response
+            return View::create(["result"=>true], Response::HTTP_ACCEPTED);
         }
-        // In case our POST was a success we need to return a 202 HTTP ACCEPTED response
-        return View::create(true, Response::HTTP_ACCEPTED);
+        return View::create(["result"=>false,"Vous n'êtes pas en route ... "], Response::HTTP_FORBIDDEN);
     }
     
     /**
@@ -81,6 +101,12 @@ class CoreController extends FOSRestController
      * @return View
      */
     public function check(Request $request):View {
+        
+        $session = $this->session->get("session");
+        if ($session == null) {
+            return View::create(["result"=>false,"Vous n'avez pas démarré !"], Response::HTTP_FORBIDDEN);
+        }
+        
         $tagUuid = $request->get('uuid');
         $tag = $this->tagRepository->findOneBy(['uuid'=>$tagUuid]);
         if (!empty($tag)) {
@@ -96,7 +122,7 @@ class CoreController extends FOSRestController
             return View::create($offres, Response::HTTP_ACCEPTED);
         } else {
             //return a 404 HTTP NOT_FOUND response if tag does not exists
-            return View::create(false, Response::HTTP_NOT_FOUND);
+            return View::create(["result"=>false,"message"=>"Ce tag n'existe pas ! Gros malin !"], Response::HTTP_NOT_FOUND);
         }
     }
     

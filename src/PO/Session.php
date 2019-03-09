@@ -21,8 +21,15 @@ class Session
      */
     private $wayPoints;
     
+    /**
+     * 
+     * @param \DateTime $date
+     * @param Point $startPoint
+     */
     public function __construct(\DateTime $date,Point $startPoint){
         $this->startPoint = $startPoint;
+        $this->startTime = $date;
+        $this->wayPoints = [];
     }
     
     /**
