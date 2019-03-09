@@ -29,7 +29,7 @@ class TagController extends FOSRestController
     
     public function __construct(AireRepository $aireRepository,TagRepository $tagRepository){
         $this->aireRepository = $aireRepository;
-        $this->tagTepository = $tagRepository;
+        $this->tagRepository = $tagRepository;
     }
     
     /**
