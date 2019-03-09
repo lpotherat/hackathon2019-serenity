@@ -56,8 +56,18 @@ class TagController extends FOSRestController
      */
     public function getAllTag(): View{
         $tags = $this->tagRepository->findAll();
+        $out = [];
+        foreach ($tags as $tag) {
+            $_t = [
+                "uuid"=>$tag->getUuid(),
+                "uuidAire"=>$tag->getAire()->getUuid(),
+                "numserie"=>$tag->getNumserie(),
+                "data"=>$tag->getData()
+            ];
+            $out[] = $_t;
+        }
         // In case our GET was a success we need to return a 200 HTTP OK response with the request object
-        return View::create($tags, Response::HTTP_OK);
+        return View::create($out, Response::HTTP_OK);
     }
     /**
      * Retrieves a Tag resource

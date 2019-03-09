@@ -29,7 +29,7 @@ class OffreController extends FOSRestController
     
     public function __construct(AireRepository $aireRepository,OffreRepository $offreRepository){
         $this->aireRepository = $aireRepository;
-        $this->offreTepository = $offreRepository;
+        $this->offreRepository = $offreRepository;
     }
     
     /**
@@ -53,12 +53,28 @@ class OffreController extends FOSRestController
     
     /**
      * Retrieves all Offre resource
-     * @Rest\Get("/Offres")
+     * @Rest\Get("/offres")
      */
     public function getAllOffre(): View{
         $offres = $this->offreRepository->findAll();
+        $out = [];
+        
+        foreach ($offres as $offre) {
+            $_o = [
+                "uuid"=>$offre->getUuid(),
+                "uuidAire"=>$offre->getAire()->getUuid(),
+                "code_ean"=>$offre->getCodeEan(),
+                "commerce"=>$offre->getCommerce(),
+                "description"=>$offre->getDescription(),
+                "nom"=>$offre->getNom(),
+            ];
+            
+            $out[] = $_o;
+        }
+        
+        
         // In case our GET was a success we need to return a 200 HTTP OK response with the request object
-        return View::create($offres, Response::HTTP_OK);
+        return View::create($out, Response::HTTP_OK);
     }
     /**
      * Retrieves a Offre resource
