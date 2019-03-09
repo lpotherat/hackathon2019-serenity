@@ -53,6 +53,8 @@ The NFC Tag will launch your app with the URI sty://tag/ce29c0ec-e9cb-4b2f-b97b-
 Returns the offers list
 
 ### Data sets
-You can get the rest areas, tags and offers with the corresponding endpoints : /api/aires , /api/tags , /api/offres
+You can get the rest areas, tags and offers with the corresponding GET endpoints : /api/aires , /api/tags , /api/offres
 
+### Development mode !
+You can reset the session at any time with POST /api/session/reset and empty data
     
