@@ -6,12 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uuid_tag_idx", columns={"uuid"})})
  */
 class Tag
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="id")
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -23,7 +25,7 @@ class Tag
     private $uuid;
 
     /**
-     * @ORM\Column(type="blob")
+     * @ORM\Column(type="string", length=255)
      */
     private $data;
 

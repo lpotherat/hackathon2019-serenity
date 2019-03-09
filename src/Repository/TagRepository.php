@@ -27,10 +27,19 @@ class TagRepository extends ServiceEntityRepository
      * Persists Tag object into database
      * @param Tag $tag
      */
-    public function save(Tag $tag){
+    public function save(Tag $tag):Tag{
         $em = $this->getEntityManager();
-        $em->persist($tag);
-        $em->flush($tag);
+        if (empty($tag->getId()) && !empty($tag->getUuid())) {
+            $outTag = $this->findOneBy(["uuid"=>$tag->getUuid()]);
+        } else {
+            $outTag = $em->merge($tag);
+        }
+        if($outTag == null){
+            $outTag = $em->merge($tag);
+        }
+        $em->persist($outTag);
+        $em->flush($outTag);
+        return $outTag;
     }
     // /**
     //  * @return Tag[] Returns an array of Tag objects

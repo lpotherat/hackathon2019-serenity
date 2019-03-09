@@ -8,12 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AireRepository")
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uuid_aire_idx", columns={"uuid"})})
  */
 class Aire
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="id")
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -44,9 +46,15 @@ class Aire
      */
     private $tags;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Offre", mappedBy="aire", orphanRemoval=true)
+     */
+    private $offres;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->offres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +135,37 @@ class Aire
             // set the owning side to null (unless already changed)
             if ($tag->getAire() === $this) {
                 $tag->setAire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Offre[]
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    public function addOffre(Offre $offre): self
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres[] = $offre;
+            $offre->setAire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offre $offre): self
+    {
+        if ($this->offres->contains($offre)) {
+            $this->offres->removeElement($offre);
+            // set the owning side to null (unless already changed)
+            if ($offre->getAire() === $this) {
+                $offre->setAire(null);
             }
         }
 

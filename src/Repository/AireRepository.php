@@ -23,10 +23,16 @@ class AireRepository extends ServiceEntityRepository
      * Persists Aire object into database
      * @param Aire $aire
      */
-    public function save(Aire $aire){
+    public function save(Aire $aire):Aire{
         $em = $this->getEntityManager();
-        $em->persist($aire);
-        $em->flush($aire);
+        if (empty($aire->getId()) && !empty($aire->getUuid())) {
+            $outAire = $this->findOneBy(["uuid"=>$aire->getUuid()]);
+        } else {
+            $outAire = $em->merge($aire);
+        }
+        $em->persist($outAire);
+        $em->flush($outAire);
+        return $outAire;
     }
     
     
