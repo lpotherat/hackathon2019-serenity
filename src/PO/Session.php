@@ -48,7 +48,7 @@ class Session
     public function getTimeSinceStart():int{
         $keys = array_keys($this->wayPoints);
         sort($keys,SORT_DESC);
-        $max = $keys[0];
+        $max = isset($keys[0])?$keys[0]:time();
         
         return $max - $this->startTime;
     }
