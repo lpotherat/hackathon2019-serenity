@@ -54,7 +54,7 @@ class CoreController extends FOSRestController
      * @return array
      */
     private static function getParams(){
-        return static::DEV?static::$paramDev:static::$paramProd;
+        return static::DEV?static::$paramsDev:static::$paramsProd;
     }
     
     /**
