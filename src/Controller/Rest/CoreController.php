@@ -138,34 +138,38 @@ class CoreController extends FOSRestController
         if ($session == null) {
             return View::create(["result"=>false,"Vous n'avez pas démarré !"], Response::HTTP_FORBIDDEN);
         }
+        $constraintEnabled = $request->get('constraintEnabled',true);
         
         $tagUuid = $request->get('uuid');
         $tag = $this->tagRepository->findOneBy(['uuid'=>$tagUuid]);
         if (!empty($tag)) {
-            
-            $timeSinceStart = $session->getTimeSinceStart();
-            
-            //$dist = $session->getTotalDistance(false);
-            $distWP = $session->getTotalDistance(true);
-            
-            $params = static::getParams();
-            
             $result = true;
-            $message = "";
-            if ($timeSinceStart < $params[static::K_MIN_ACCEPTABLE_ROAD_TIME]) {
-                $result = false;
-                $message = "Votre trajet est un peu cours, vous méritez la pause ?";
+            if ($constraintEnabled) {
+                $timeSinceStart = $session->getTimeSinceStart();
+                
+                //$dist = $session->getTotalDistance(false);
+                $distWP = $session->getTotalDistance(true);
+                
+                $params = static::getParams();
+                
+               
+                $message = "";
+                if ($timeSinceStart < $params[static::K_MIN_ACCEPTABLE_ROAD_TIME]) {
+                    $result = false;
+                    $message = "Votre trajet est un peu cours, vous méritez la pause ?";
+                }
+                
+                if ($timeSinceStart > $params[static::K_MAX_ACCEPTABLE_ROAD_TIME]) {
+                    $result = false;
+                    $message = "Vous n'avez pas respecté le temps règlementaire de 2h entre chaque pause :( ";
+                }
+                
+                if ($distWP < $params[static::K_MIN_ACCEPTABLE_DISTANCE] || $distWP > $params[static::K_MAX_ACCEPTABLE_DISTANCE]) {
+                    $result = false;
+                    $message = "La distance parcourue n'est pas cohérente avec le temps passé à rouler";
+                }
             }
             
-            if ($timeSinceStart > $params[static::K_MAX_ACCEPTABLE_ROAD_TIME]) {
-                $result = false;
-                $message = "Vous n'avez pas respecté le temps règlementaire de 2h entre chaque pause :( ";
-            }
-            
-            if ($distWP < $params[static::K_MIN_ACCEPTABLE_DISTANCE] || $distWP > $params[static::K_MAX_ACCEPTABLE_DISTANCE]) {
-                $result = false;
-                $message = "La distance parcourue n'est pas cohérente avec le temps passé à rouler";
-            }
             
             if(!$result){
                 return View::create(["result"=>false,"message"=>$message], Response::HTTP_OK);
